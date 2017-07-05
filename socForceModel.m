@@ -1,3 +1,4 @@
 %compute group force. parameters are input to the function
-function out = groForce()
+function out = socialForceModel(i, allAgents, allObstacles)
+    for i = 1:length(allAgents)
 end
