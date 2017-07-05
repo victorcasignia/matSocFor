@@ -1,0 +1,54 @@
+%compute social force. input: two agent i, j
+function out = socForce(i, j)
+    r_ij = i.rad + j.rad;
+    x_ij = i.pos + (i.vel*j.t_p);
+    x_ji = j.pos + (j.vel*i.t_p);
+    d_prime = norm(x_ij - x_ji);
+    n_prime = (x_ij - x_ji)/d_prime;
+    out = i.A * exp((r_ij-d_prime)/i.B)*n_prime;
+end
+%compute physical force. input: two agent i, j
+function out = phyForce(i, j)
+    %pushing force
+    r_ij = i.rad + j.rad;
+    d_ij = norm(i.pos - j.pos);
+    theta = max([0, r_ij]);
+    n_ij = (i.pos - j.pos) / d_ij;
+    k = 120000;               %elasticity constant
+    
+    p_force = k*theta*n_ij;
+    
+    %friction force
+    kappa = 240000;           %relative tangential velocity
+    t_ij = [-n_ij(2) n_ij(1)];
+    delta_v = dot((j.vel - i.vel),t_ij);
+    f_force = kappa*theta*delta_v*t_ij;
+    
+    out = p_force + f_force;
+end
+%compute desired force. input: agent i, wall b
+function out = obsForce(i, b)
+    predicted = i.pos + i.vel*i.t_p;
+    
+    %using the line to point distance formula
+    d_prime_ib = abs(((b.y2-b.y1)*predicted(1)) - ((b.x2-b.x1)*predicted(2)) + (b.x2*b.y1) - (b.y2*b.x1));
+    d_prime_ib = d_prime_ib/sqrt((b.y2-b.y1)^2 + (b.x2-b.x1)^2);
+
+    n_prime_ib = predicted - ((b.p2-b.p1)/norm(b.p2-b.p1) * dot(predicted, (b.p2-b.p1)/norm(b.p2-b.p1)));
+    n_prime_ib = n_prime_ib/norm(n_prime_ib);
+    
+    d_ib = abs(((b.y2-b.y1)*i.pos(1)) - ((b.x2-b.x1)*i.pos(2)) + (b.x2*b.y1) - (b.y2*b.x1));
+    d_ib = d_ib/sqrt((b.y2-b.y1)^2 + (b.x2-b.x1)^2);
+    
+    n_ib = i.pos - ((b.p2-b.p1)/norm(b.p2-b.p1) * dot(i.pos, (b.p2-b.p1)/norm(b.p2-b.p1)));
+    n_ib = n_ib/norm(n_ib);
+    
+    out = b.A * exp((i.rad - d_prim_)
+    
+end
+%compute obstacle force. parameters are input to the function
+function out = desForce()
+end
+%compute group force. parameters are input to the function
+function out = groForce()
+end
