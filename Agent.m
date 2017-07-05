@@ -1,0 +1,58 @@
+%define an agent class. this class has 4 values. 
+%rad, mass, pos and vel
+
+classdef Agent
+   properties
+      rad
+      mass
+      pos
+      vel
+   end
+   methods
+     %constructor of agent. in this function, the agent variables are
+     %initially defined
+     function obj = Agent(rad, mass, pos)
+        %definition of default values. rad = 1, mass = 1, pos at origin, vel = 0
+        %velocity always zero at initialization
+        if nargin == 0
+            rad = 1;
+            pos = [0,0];
+            vel = 0;
+            mass = 1;
+        end
+        %radius and mass should be positive
+        if (rad>0) && (mass>0)
+            obj.rad = rad;
+            obj.mass = mass;
+            obj.pos = pos;  
+            obj.vel = 0;
+        else
+            error('Radius and Mass must be positive')
+        end
+     end
+     %compute dv/dt with the social force model 
+     function accelerate(allAgents)
+         %sum of socForce
+         for i = 1:length(allAgents)
+             
+         end
+         %add components
+
+     end
+     %compute interagent force. parameters are input to the function
+     function out = socForce()
+     end
+     %compute desired force. parameters are input to the function
+     function out = desForce()
+     end
+     %compute obstacle force. parameters are input to the function
+     function out = obsForce()
+     end
+     %compute physical force. parameters are input to the function
+     function out = phyForce()
+     end
+     %compute group force. parameters are input to the function
+     function out = groForce()
+     end
+   end
+end
